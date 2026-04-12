@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>DevOps Dashboard</title>
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Segoe UI';
+      background: linear-gradient(135deg, #1e3c72, #2a5298);
+      color: white;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+
+    .container {
+      background: rgba(255,255,255,0.1);
+      padding: 40px;
+      border-radius: 20px;
+      text-align: center;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.4);
+    }
+
+    h1 {
+      margin-bottom: 10px;
+    }
+
+    button {
+      padding: 12px 25px;
+      border: none;
+      border-radius: 10px;
+      background: #00c6ff;
+      color: black;
+      font-weight: bold;
+      cursor: pointer;
+      transition: 0.3s;
+    }
+
+    button:hover {
+      background: #00a2cc;
+    }
+
+    #status {
+      margin-top: 20px;
+      font-size: 18px;
+    }
+
+    .success {
+      color: #00ff88;
+    }
+
+    .error {
+      color: #ff4d4d;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+  <h1>🚀 DevOps 3-Tier App</h1>
+  <p>Kubernetes Deployment</p>
+
+  <button onclick="checkBackend()">Check Backend</button>
+
+  <div id="status">Click button to test connection</div>
+</div>
+
+<script>
+function checkBackend() {
+  const status = document.getElementById("status");
+  status.innerText = "Checking...";
+  
+  fetch("http://backend-service:3000/api")
+    .then(res => res.json())
+    .then(data => {
+      status.innerText = data.message;
+      status.className = "success";
+    })
+    .catch(() => {
+      status.innerText = "❌ Backend not reachable";
+      status.className = "error";
+    });
+}
+</script>
+
+</body>
+</html>

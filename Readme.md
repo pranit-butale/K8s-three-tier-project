@@ -1,6 +1,8 @@
 # 🚀 Kubernetes 3-Tier DevOps Project
 
-This project demonstrates a complete **3-tier application deployment** using modern DevOps tools and practices.
+<!-- This project demonstrates a basic 3-tier architecture -->
+
+<!-- Frontend → Backend → (Database can be added later) -->
 
 ---
 
@@ -8,43 +10,20 @@ This project demonstrates a complete **3-tier application deployment** using mod
 
 * 🌐 Frontend: HTML + Nginx
 * ⚙️ Backend: Node.js (Express)
-* 🗄️ Database: MongoDB
-* ☸️ Kubernetes: Deployment & Services
 * 🐳 Docker: Containerization
+* 📦 Docker Compose: Multi-container orchestration
+* ☸️ Kubernetes: (for future deployment)
 
 ---
 
 ## 📂 Project Structure
 
-```
+```bash
 k8s-three-tier-project/
 │
-├── frontend/
-│   ├── index.html
-│   ├── Dockerfile
-│   └── .env
-│
-├── backend/
-│   ├── app.js
-│   ├── package.json
-│   ├── Dockerfile
-│   └── .env
-│
-├── k8s/
-│   ├── namespace.yaml
-│   │
-│   ├── backend/
-│   │   ├── deployment.yaml
-│   │   └── service.yaml
-│   │
-│   ├── frontend/
-│   │   ├── deployment.yaml
-│   │   └── service.yaml
-│   │
-│   └── database/
-│       ├── deployment.yaml
-│       └── service.yaml
-│
+├── frontend/        # UI files (HTML + Nginx)
+├── backend/         # Node.js API
+├── k8s/             # Kubernetes YAML files
 ├── docker-compose.yml
 └── README.md
 ```
@@ -53,111 +32,139 @@ k8s-three-tier-project/
 
 ## 🧩 Architecture
 
-```
-User → Frontend → Backend → Database
+```text
+User → Frontend → Backend
 ```
 
 ---
 
 ## ⚙️ Prerequisites
 
-Make sure you have installed:
+<!-- Make sure these are installed -->
 
 * Docker
-* Kubernetes (Minikube)
-* kubectl
+* Docker Compose
 
 ---
 
-## 🚀 Setup & Run
+# 🐳 Docker Compose Setup
 
-### 1️⃣ Start Minikube
+<!-- This is the main way to run the project -->
+
+---
+
+## ▶️ Start Application
 
 ```bash
-minikube start
+docker-compose up -d --build
 ```
 
----
-
-### 2️⃣ Use Minikube Docker Environment
+<!-- Or for newer Docker versions -->
 
 ```bash
-eval $(minikube docker-env)
+docker compose up -d --build
 ```
 
+👉 This command will:
+
+* Build Docker images
+* Start all containers
+
 ---
 
-### 3️⃣ Build Docker Images
+## ⏹️ Stop Application
 
 ```bash
-docker build -t backend-app ./backend
-docker build -t frontend-app ./frontend
+docker-compose down
 ```
 
----
+👉 This will:
 
-### 4️⃣ Deploy to Kubernetes
-
-```bash
-kubectl apply -f k8s/
-```
+* Stop containers
+* Remove network
 
 ---
 
-### 5️⃣ Check Pods
+## 🔄 Rebuild Containers
 
 ```bash
-kubectl get pods -n devops-project
-```
-
----
-
-### 6️⃣ Access Application
-
-```bash
-minikube service frontend-service -n devops-project
+docker-compose up -d --build
 ```
 
 ---
 
-## 🔍 Test Backend API
+## 📊 Check Running Containers
 
 ```bash
-kubectl port-forward service/backend-service 3000:3000 -n devops-project
+docker ps
 ```
 
-Open in browser:
+👉 Expected:
 
-```
-http://localhost:3000/api
+* frontend running
+* backend running
+
+---
+
+## 📜 Check Logs
+
+```bash
+docker logs backend
+docker logs frontend
 ```
 
 ---
 
-## 🐳 Docker Compose (Optional)
+## 🌐 Access Application
 
-```bash
-docker-compose up -d
+```text
+http://<EC2-PUBLIC-IP>:8080
+```
+
+---
+
+## 🧪 Test Backend API
+
+```text
+http://<EC2-PUBLIC-IP>:3000/api
 ```
 
 ---
 
 ## ⚡ Features
 
-* Microservices-style architecture
-* Kubernetes-based deployment
-* Service-to-service communication
-* Scalable backend using replicas
-* Clean and modular DevOps structure
+* Multi-container DevOps project
+* Frontend ↔ Backend communication
+* Lightweight deployment
+* Beginner-friendly structure
+
+---
+
+## ❗ Important Notes
+
+<!-- Important configuration points -->
+
+* Update frontend API URL:
+
+```javascript
+fetch("http://<EC2-PUBLIC-IP>:3000/api")
+```
+
+* Enable CORS in backend
+* Open required ports in EC2 Security Group:
+
+  * 8080 (Frontend)
+  * 3000 (Backend)
 
 ---
 
 ## 📌 Future Improvements
 
-* Add Jenkins CI/CD pipeline
-* Add Ingress Controller
-* Add Monitoring (Prometheus & Grafana)
+* Kubernetes deployment
+* Jenkins CI/CD pipeline
+* Monitoring (Prometheus & Grafana)
 * Deploy on AWS (EKS)
 
 ---
+
 
